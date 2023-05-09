@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Rest of the head section remains the same -->
+</head>
+<body>
+  <section>
+    <a href="http://localhost:5000/photos">All Images</a>
+    <h1>Form</h1>
+    <div id="upload-message"></div>
+    <form id="form">
+      <input
+        type="file"
+        placeholder="Select files"
+        multiple
+        name="files"
+        accept="image/*"
+        id="files"
+      />
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+
+  <section id="image"></section>
+
+  <script>
+    let submit = document.getElementById("form");
+    let previewImage = document.getElementById("image");
+
+    submit.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      let formdata = new FormData();
+      const files = document.getElementById("files");
+      let fileArray = Array.from(files.files);
+
+      fileArray.forEach((file) => {
+        formdata.append("files", file);
+      });
+
+      fetch("http://localhost:5000/files", {
+        method: "POST",
+        body: formdata,
+      })
+        .then((res) => {
+          if (res.status == 200) {
+            document.getElementById("upload-message").innerHTML =
+              "Uploaded successfully";
+            return res.blob();
+          } else {
+            throw new Error("Upload failed");
+          }
+        })
+        .then((blob) => {
+          let imageURL = URL.createObjectURL(blob);
+          previewImage.innerHTML = `<img src="${imageURL}" alt="Uploaded Image" />`;
+        })
+        .catch((err) => {
+          document.getElementById("upload-message").innerHTML =
+            "Upload failed";
+        });
+    });
+  </script>
+</body>
+</html>
