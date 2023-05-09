@@ -9,9 +9,9 @@ This repository contains a simple image server implemented in Node.js. The serve
 1. Clone the repository:
 
    ```shell
-   git clone https://github.com/your-username/simple-image-server.git
+    git clone https://github.com/Nawaz393/SimpleImageSeverInNodejs.git
    cd SimpleImageSeverInNodejs
-   node index.js or nodemon index.js
+   nodemon index.js
    ```
    Open a web browser and visit http://localhost:5000 to access the upload form.
 
